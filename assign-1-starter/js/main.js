@@ -21,7 +21,7 @@ let errorMsg = document.querySelector(".error");
 function SubmitHandler(event) {
   //  Prevents the default of the event.
   event.preventDefault();
-
+  
   //  Gets the value of the selected meme image from the dropdown list.
   let memeChoice = selectMeme.options[selectMeme.selectedIndex].value;
   
@@ -31,17 +31,17 @@ function SubmitHandler(event) {
 
   //  Checks if the selected image is default. 
   if (memeChoice === "") {
-    errorMsg.innerHTML = "Please select a meme image.";
+    errorMsg.innerHTML += "<p>Please select a meme image.</p>";
     selectMeme.focus();
   } 
   //  Checks if the input text box are empty.
   else if (inputTopText.value === "") {
-    errorMsg.innerHTML = "Please enter top text for the meme image.";
+    errorMsg.innerHTML += "<p>Please enter top text for the meme image.</p>";
     inputTopText.focus();
   }
   else if (inputBottomText.value === "")
   {
-    errorMsg.innerHTML = "Please enter bottom text for the meme image.";
+    errorMsg.innerHTML += "<p>Please enter bottom text for the meme image.</p>";
     inputBottomText.focus();
   }
   //  Displays image if all input from the form are valid.
@@ -85,7 +85,7 @@ function SelectHandler() {
   let memeChoice = selectMeme.options[selectMeme.selectedIndex].value;
   console.log(memeChoice);
   if (memeChoice === "") {
-    errorMsg.innerHTML = "Please select a meme image.";
+    errorMsg.innerHTML += "<p>Please select a meme image.</p>";
   } else {
     let newAltValue = memeChoice.toString().replace(/-/g, " ");
     errorMsg.innerHTML = "";
