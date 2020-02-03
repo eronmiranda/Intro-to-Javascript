@@ -26,8 +26,8 @@ function SubmitHandler(event) {
   let memeChoice = selectMeme.options[selectMeme.selectedIndex].value;
   
   //  Gets the value from input text box for top and bottom text.`
-  let inputTopText = event.target.elements.memeTopText.value;
-  let inputBottomText = event.target.elements.memeBottomText.value;
+  let inputTopText = event.target.elements.memeTopText;
+  let inputBottomText = event.target.elements.memeBottomText;
 
   //  Checks if the selected image is default. 
   if (memeChoice === "") {
@@ -35,14 +35,14 @@ function SubmitHandler(event) {
     selectMeme.focus();
   } 
   //  Checks if the input text box are empty.
-  else if (inputTopText === "") {
+  else if (inputTopText.value === "") {
     errorMsg.innerHTML = "Please enter top text for the meme image.";
-    event.target.elements.memeTopText.focus();
+    inputTopText.focus();
   }
-  else if (inputBottomText === "")
+  else if (inputBottomText.value === "")
   {
     errorMsg.innerHTML = "Please enter bottom text for the meme image.";
-    event.target.elements.memeBottomText.focus();
+    inputBottomText.focus();
   }
   //  Displays image if all input from the form are valid.
   else {
@@ -61,8 +61,8 @@ function SubmitHandler(event) {
     memeDisplay.setAttribute("alt", newAltValue);
 
     //  Displays top and bottom text
-    memeTopText.innerHTML = inputTopText;
-    memeBottomText.innerHTML = inputBottomText;
+    memeTopText.innerHTML = inputTopText.value;
+    memeBottomText.innerHTML = inputBottomText.value;
   }
 }
 
