@@ -39,7 +39,7 @@ function SubmitHandler(event) {
     errorMsg.innerHTML = "Please enter top text for the meme image.";
     event.target.elements.memeTopText.focus();
   }
-  else if(inputBottomText === "")
+  else if (inputBottomText === "")
   {
     errorMsg.innerHTML = "Please enter bottom text for the meme image.";
     event.target.elements.memeBottomText.focus();
