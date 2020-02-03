@@ -32,10 +32,17 @@ function SubmitHandler(event) {
   //  Checks if the selected image is default. 
   if (memeChoice === "") {
     errorMsg.innerHTML = "Please select a meme image.";
+    selectMeme.focus();
   } 
   //  Checks if the input text box are empty.
-  else if (inputTopText === "" || inputBottomText === "") {
-    errorMsg.innerHTML = "Please enter top and bottom text for the meme<br>";
+  else if (inputTopText === "") {
+    errorMsg.innerHTML = "Please enter top text for the meme image.";
+    event.target.elements.memeTopText.focus();
+  }
+  else if(inputBottomText === "")
+  {
+    errorMsg.innerHTML = "Please enter bottom text for the meme image.";
+    event.target.elements.memeBottomText.focus();
   }
   //  Displays image if all input from the form are valid.
   else {
