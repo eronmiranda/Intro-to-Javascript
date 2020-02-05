@@ -21,7 +21,7 @@ let errorMsg = document.querySelector(".error");
 function SubmitHandler(event) {
   //  Prevents the default of the event.
   event.preventDefault();
-  
+  errorMsg.innerHTML = "";
   //  Gets the value of the selected meme image from the dropdown list.
   let memeChoice = selectMeme.options[selectMeme.selectedIndex].value;
   
@@ -30,22 +30,23 @@ function SubmitHandler(event) {
   let inputBottomText = event.target.elements.memeBottomText;
 
   //  Checks if the selected image is default. 
-  if (memeChoice === "") {
+  if (isValid(memeChoice)) {
     errorMsg.innerHTML += "<p>Please select a meme image.</p>";
     selectMeme.focus();
   } 
   //  Checks if the input text box are empty.
-  else if (inputTopText.value === "") {
+  if (isValid(inputTopText.value)) {
     errorMsg.innerHTML += "<p>Please enter top text for the meme image.</p>";
     inputTopText.focus();
   }
-  else if (inputBottomText.value === "")
+  if (isValid(inputBottomText.value))
   {
     errorMsg.innerHTML += "<p>Please enter bottom text for the meme image.</p>";
     inputBottomText.focus();
   }
   //  Displays image if all input from the form are valid.
-  else {
+  if(!isValid(memeChoice) && !isValid(inputTopText.value) && !isValid(inputBottomText.value)) 
+  {
     //  Removes dashes for the new alt value of the image.
     let newAltValue = memeChoice.toString().replace(/-/g, " ");
     
@@ -83,8 +84,8 @@ function ResetHandler() {
 // This function runs if dropdown list choice have change.
 function SelectHandler() {
   let memeChoice = selectMeme.options[selectMeme.selectedIndex].value;
-  console.log(memeChoice);
-  if (memeChoice === "") {
+
+  if (isValid(memeChoice)) {
     errorMsg.innerHTML += "<p>Please select a meme image.</p>";
   } else {
     let newAltValue = memeChoice.toString().replace(/-/g, " ");
@@ -93,6 +94,11 @@ function SelectHandler() {
     memeDisplay.setAttribute("src", memeChoice);
     memeDisplay.setAttribute("alt", newAltValue);
   }
+}
+
+function isValid(text)
+{
+  return text==="";
 }
 
 //  Adds event listener of the form.
