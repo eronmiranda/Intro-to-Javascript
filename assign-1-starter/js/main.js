@@ -1,65 +1,58 @@
 //  Selects the form.
 let memeForm = document.querySelector("form");
 
-//  Selects the dropdown of the form.
-let selectMeme = memeForm.elements.memeImage;
-
 //  Selects the display p tags for of meme's top and bottom text.
 let memeTopText = document.querySelector(".meme-display .top-text");
 let memeBottomText = document.querySelector(".meme-display .bottom-text");
-
 //  Selects display image for the meme.
-let memeDisplay = document.querySelector(".content .meme-display img");
-
+let memeImgDisplay = document.querySelector(".content .meme-display img");
+// selects error box for displaying errors.
+let errorDisplay = document.querySelector(".error");
 //  Stores default attributes of the image.
-let defaultImgSrc = memeDisplay.getAttribute("src");
-let defaultImgAlt = memeDisplay.getAttribute("alt");
+let defaultImgSrc = memeImgDisplay.getAttribute("src");
+let defaultImgAlt = memeImgDisplay.getAttribute("alt");
 
-let errorMsg = document.querySelector(".error");
 
 // This function runs if Submit button was clicked.
 function SubmitHandler(event) {
   //  Prevents the default of the event.
   event.preventDefault();
-  errorMsg.innerHTML = "";
+  errorDisplay.innerHTML = "";
+  let form = event.target;
   //  Gets the value of the selected meme image from the dropdown list.
-  let memeChoice = selectMeme.options[selectMeme.selectedIndex].value;
-  
+  let memeChoice = form.memeImage.options[form.memeImage.selectedIndex].value;
   //  Gets the value from input text box for top and bottom text.`
-  let inputTopText = event.target.elements.memeTopText;
-  let inputBottomText = event.target.elements.memeBottomText;
+  let inputTopText = form.elements.memeTopText;
+  let inputBottomText = form.elements.memeBottomText;
 
   //  Checks if the selected image is default. 
-  if (isValid(memeChoice)) {
-    errorMsg.innerHTML += "<p>Please select a meme image.</p>";
-    selectMeme.focus();
+  if (!isValid(memeChoice)) {
+    errorDisplay.innerHTML += "<p>Please select a meme image.</p>";
+    form.memeImage.focus();
   } 
   //  Checks if the input text box are empty.
-  if (isValid(inputTopText.value)) {
-    errorMsg.innerHTML += "<p>Please enter top text for the meme image.</p>";
+  if (!isValid(inputTopText.value)) {
+    errorDisplay.innerHTML += "<p>Please enter top text for the meme image.</p>";
     inputTopText.focus();
   }
-  if (isValid(inputBottomText.value))
+  if (!isValid(inputBottomText.value))
   {
-    errorMsg.innerHTML += "<p>Please enter bottom text for the meme image.</p>";
+    errorDisplay.innerHTML += "<p>Please enter bottom text for the meme image.</p>";
     inputBottomText.focus();
   }
   //  Displays image if all input from the form are valid.
-  if(!isValid(memeChoice) && !isValid(inputTopText.value) && !isValid(inputBottomText.value)) 
+  if(isValid(memeChoice) && isValid(inputTopText.value) && isValid(inputBottomText.value)) 
   {
     //  Removes dashes for the new alt value of the image.
     let newAltValue = memeChoice.toString().replace(/-/g, " ");
-    
     //  Removes error message
-    errorMsg.innerHTML = "";
-
+    errorDisplay.innerHTML = "";
     // Adds the location and file type of the image.
     memeChoice = `img/${memeChoice}.png`;
-    
+
     //  Sets attribute of the meme image's src and alt attribute
     //  Displays selected meme image.
-    memeDisplay.setAttribute("src", memeChoice);
-    memeDisplay.setAttribute("alt", newAltValue);
+    ImageSetAttributes(memeChoice,newAltValue);
 
     //  Displays top and bottom text
     memeTopText.innerHTML = inputTopText.value;
@@ -74,34 +67,40 @@ function ResetHandler() {
   memeBottomText.innerHTML = "";
 
   //resets error message to empty string.
-  errorMsg.innerHTML = "";
+  errorDisplay.innerHTML = "";
 
   //resets to default attributes of the meme image.
-  memeDisplay.setAttribute("src", defaultImgSrc);
-  memeDisplay.setAttribute("alt", defaultImgAlt);
+  ImageSetAttributes(defaultImgSrc,defaultImgAlt);
+
 }
 
 // This function runs if dropdown list choice have change.
-function SelectHandler() {
-  let memeChoice = selectMeme.options[selectMeme.selectedIndex].value;
+function SelectHandler(event) {
+  let memeChoice = event.target.options[event.target.selectedIndex].value;
 
-  if (isValid(memeChoice)) {
-    errorMsg.innerHTML += "<p>Please select a meme image.</p>";
+  if (!isValid(memeChoice)) {
+    errorDisplay.innerHTML += "<p>Please select a meme image.</p>";
   } else {
     let newAltValue = memeChoice.toString().replace(/-/g, " ");
-    errorMsg.innerHTML = "";
+    errorDisplay.insertBefore(, errorDisplay.firstChild);
+    errorDisplay.innerHTML = "";
     memeChoice = `img/${memeChoice}.png`;
-    memeDisplay.setAttribute("src", memeChoice);
-    memeDisplay.setAttribute("alt", newAltValue);
+    
+    ImageSetAttributes(memeChoice,newAltValue);
   }
 }
 
 function isValid(text)
 {
-  return text==="";
+  return text!=="";
+}
+
+function ImageSetAttributes(newImgSrc, newImgAlt){
+  memeImgDisplay.setAttribute("src", newImgSrc);
+  memeImgDisplay.setAttribute("alt", newImgAlt);
 }
 
 //  Adds event listener of the form.
 memeForm.addEventListener("submit", SubmitHandler);
 memeForm.addEventListener("reset", ResetHandler);
-selectMeme.addEventListener("change", SelectHandler);
+memeForm.elements.memeImage.addEventListener("change", SelectHandler);
