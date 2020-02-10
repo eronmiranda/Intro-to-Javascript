@@ -82,7 +82,6 @@ function SelectHandler(event) {
     errorDisplay.innerHTML += "<p>Please select a meme image.</p>";
   } else {
     let newAltValue = memeChoice.toString().replace(/-/g, " ");
-    errorDisplay.insertBefore(, errorDisplay.firstChild);
     errorDisplay.innerHTML = "";
     memeChoice = `img/${memeChoice}.png`;
     
