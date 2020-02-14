@@ -4,10 +4,13 @@ let memeForm = document.querySelector("form");
 //  Selects the display p tags for of meme's top and bottom text.
 let memeTopText = document.querySelector(".meme-display .top-text");
 let memeBottomText = document.querySelector(".meme-display .bottom-text");
+
 //  Selects display image for the meme.
 let memeImgDisplay = document.querySelector(".content .meme-display img");
+
 // selects error box for displaying errors.
 let errorDisplay = document.querySelector(".error");
+
 //  Stores default attributes of the image.
 let defaultImgSrc = memeImgDisplay.getAttribute("src");
 let defaultImgAlt = memeImgDisplay.getAttribute("alt");
@@ -26,22 +29,6 @@ function SubmitHandler(event) {
   let inputTopText = form.elements.memeTopText;
   let inputBottomText = form.elements.memeBottomText;
 
-  //  Checks if the selected image is valid
-  if (!isValid(memeChoice)) {
-    errorDisplay.innerHTML += "<p>Please select a meme image.</p>";
-    form.memeImage.focus();
-  }
-  // Checks if input text boxes have valid value.
-  if (!isValid(inputTopText.value)) {
-    errorDisplay.innerHTML +=
-      "<p>Please enter top text for the meme image.</p>";
-    inputTopText.focus();
-  }
-  if (!isValid(inputBottomText.value)) {
-    errorDisplay.innerHTML +=
-      "<p>Please enter bottom text for the meme image.</p>";
-    inputBottomText.focus();
-  }
   //  Displays image if all input from the form are valid.
   if (
     isValid(memeChoice) &&
@@ -62,6 +49,23 @@ function SubmitHandler(event) {
     //  Displays top and bottom text
     memeTopText.innerHTML = inputTopText.value;
     memeBottomText.innerHTML = inputBottomText.value;
+  } else {
+    //  Checks if the selected image is valid
+    if (!isValid(memeChoice)) {
+      errorDisplay.innerHTML += "<p>Please select a meme image.</p>";
+      form.memeImage.focus();
+    }
+    // Checks if input text boxes have valid value.
+    if (!isValid(inputTopText.value)) {
+      errorDisplay.innerHTML +=
+        "<p>Please enter top text for the meme image.</p>";
+      inputTopText.focus();
+    }
+    if (!isValid(inputBottomText.value)) {
+      errorDisplay.innerHTML +=
+        "<p>Please enter bottom text for the meme image.</p>";
+      inputBottomText.focus();
+    }
   }
 }
 
@@ -87,13 +91,14 @@ function SelectHandler(event) {
   } else {
     let newAltValue = memeChoice.toString().replace(/-/g, " ");
     errorDisplay.innerHTML = "";
+
     memeChoice = `img/${memeChoice}.png`;
 
     MemeImgSetAttributes(memeChoice, newAltValue);
   }
 }
 
-//  Checks if the input text box are empty.
+//  Checks if the text are not empty or blank.
 function isValid(text) {
   return text !== "";
 }
