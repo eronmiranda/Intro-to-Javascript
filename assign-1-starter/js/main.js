@@ -12,12 +12,13 @@ let errorDisplay = document.querySelector(".error");
 let defaultImgSrc = memeImgDisplay.getAttribute("src");
 let defaultImgAlt = memeImgDisplay.getAttribute("alt");
 
-
 // This function runs if Submit button was clicked.
 function SubmitHandler(event) {
   //  Prevents the default of the event.
   event.preventDefault();
+  //  Resets current error messages.
   errorDisplay.innerHTML = "";
+
   let form = event.target;
   //  Gets the value of the selected meme image from the dropdown list.
   let memeChoice = form.memeImage.options[form.memeImage.selectedIndex].value;
@@ -25,24 +26,28 @@ function SubmitHandler(event) {
   let inputTopText = form.elements.memeTopText;
   let inputBottomText = form.elements.memeBottomText;
 
-  //  Checks if the selected image is default. 
+  //  Checks if the selected image is valid
   if (!isValid(memeChoice)) {
     errorDisplay.innerHTML += "<p>Please select a meme image.</p>";
     form.memeImage.focus();
-  } 
-  //  Checks if the input text box are empty.
+  }
+  // Checks if input text boxes have valid value.
   if (!isValid(inputTopText.value)) {
-    errorDisplay.innerHTML += "<p>Please enter top text for the meme image.</p>";
+    errorDisplay.innerHTML +=
+      "<p>Please enter top text for the meme image.</p>";
     inputTopText.focus();
   }
-  if (!isValid(inputBottomText.value))
-  {
-    errorDisplay.innerHTML += "<p>Please enter bottom text for the meme image.</p>";
+  if (!isValid(inputBottomText.value)) {
+    errorDisplay.innerHTML +=
+      "<p>Please enter bottom text for the meme image.</p>";
     inputBottomText.focus();
   }
   //  Displays image if all input from the form are valid.
-  if(isValid(memeChoice) && isValid(inputTopText.value) && isValid(inputBottomText.value)) 
-  {
+  if (
+    isValid(memeChoice) &&
+    isValid(inputTopText.value) &&
+    isValid(inputBottomText.value)
+  ) {
     //  Removes dashes for the new alt value of the image.
     let newAltValue = memeChoice.toString().replace(/-/g, " ");
     //  Removes error message
@@ -52,7 +57,7 @@ function SubmitHandler(event) {
 
     //  Sets attribute of the meme image's src and alt attribute
     //  Displays selected meme image.
-    ImageSetAttributes(memeChoice,newAltValue);
+    MemeImgSetAttributes(memeChoice, newAltValue);
 
     //  Displays top and bottom text
     memeTopText.innerHTML = inputTopText.value;
@@ -70,8 +75,7 @@ function ResetHandler() {
   errorDisplay.innerHTML = "";
 
   //resets to default attributes of the meme image.
-  ImageSetAttributes(defaultImgSrc,defaultImgAlt);
-
+  MemeImgSetAttributes(defaultImgSrc, defaultImgAlt);
 }
 
 // This function runs if dropdown list choice have change.
@@ -84,17 +88,17 @@ function SelectHandler(event) {
     let newAltValue = memeChoice.toString().replace(/-/g, " ");
     errorDisplay.innerHTML = "";
     memeChoice = `img/${memeChoice}.png`;
-    
-    ImageSetAttributes(memeChoice,newAltValue);
+
+    MemeImgSetAttributes(memeChoice, newAltValue);
   }
 }
 
-function isValid(text)
-{
-  return text!=="";
+//  Checks if the input text box are empty.
+function isValid(text) {
+  return text !== "";
 }
 
-function ImageSetAttributes(newImgSrc, newImgAlt){
+function MemeImgSetAttributes(newImgSrc, newImgAlt) {
   memeImgDisplay.setAttribute("src", newImgSrc);
   memeImgDisplay.setAttribute("alt", newImgAlt);
 }
