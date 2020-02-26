@@ -9,7 +9,11 @@ function filterHandler(evt) {
   let tagsList = document.querySelectorAll(".thumb-display p.tags");
   let input = evt.target.value.toLowerCase();
 
-  resetBtn.classList.remove("hidden");
+  if (input === "") {
+    resetBtn.classList.add("hidden");
+  } else {
+    resetBtn.classList.remove("hidden");
+  }
   for (let index = 0; index < tagsList.length; index++) {
     if (tagsList[index].innerHTML.match(input)) {
       thumbDisplay[index].classList.remove("hidden");
