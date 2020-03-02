@@ -1,32 +1,38 @@
 // Enter your JavaScript for the solution here...
 let filterBar = document.querySelector(".frm-control");
 let resetBtn = document.querySelector(".reset");
-let thumbDisplay = document.querySelectorAll(".gallery .thumb-display");
 
-filterBar.addEventListener("input", filterHandler);
+let tagsArray = Array.from(document.querySelectorAll(".thumb-display p.tags"));
 
 function filterHandler(evt) {
-  let tagsList = document.querySelectorAll(".thumb-display p.tags");
   let input = evt.target.value.toLowerCase();
+  let hideTags = [];
+
+  let showTags = tagsArray.filter(tag => {
+    if (tag.innerHTML.toLowerCase().includes(input)) {
+      return true;
+    }
+    hideTags.push(tag);
+  });
+
+  showTags.map(tag => {
+    tag.parentNode.classList.remove("hidden");
+  });
+  hideTags.map(tag => {
+    tag.parentNode.classList.add("hidden");
+  });
 
   if (input === "") {
     resetBtn.classList.add("hidden");
   } else {
     resetBtn.classList.remove("hidden");
   }
-  for (let index = 0; index < tagsList.length; index++) {
-    if (tagsList[index].innerHTML.match(input)) {
-      thumbDisplay[index].classList.remove("hidden");
-    } else {
-      thumbDisplay[index].classList.add("hidden");
-    }
-  }
 }
 
 resetBtn.addEventListener("click", function(evt) {
   evt.target.classList.add("hidden");
   filterBar.value = "";
-  thumbDisplay.forEach(element => element.classList.remove("hidden"));
+  tagsArray.forEach(element => element.parentNode.classList.remove("hidden"));
 });
 
 filterBar.addEventListener("keypress", function(evt) {
@@ -34,3 +40,5 @@ filterBar.addEventListener("keypress", function(evt) {
     evt.preventDefault();
   }
 });
+
+filterBar.addEventListener("input", filterHandler);
