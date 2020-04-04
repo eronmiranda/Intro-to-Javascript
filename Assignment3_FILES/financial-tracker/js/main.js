@@ -121,6 +121,7 @@ function addErrorMsg(message) {
   errorDiv.appendChild(li);
 }
 
+// Trash icon listener.
 transactionsBody.addEventListener("click", function(event) {
   if (event.target.classList.contains("delete")) {
     let amount = parseFloat(
